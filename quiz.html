@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Find the Toilet That Suits You Best</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b1018; --panel:#101826; --ink:#e9eef7; --muted:#9bb0c9; --line:#1d2740;
+    --accent:#3ee682; --accent-2:#2aa5ff; --warn:#ffd165; --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%, #142034 30%, transparent 60%), var(--bg);color:var(--ink);font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px 0 20px}
+  .brand{font-weight:800;letter-spacing:.4px;font-size:22px}
+  .card{background:linear-gradient(180deg, #121a2b 0%, #0e1523 100%);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  .hero{padding:22px 22px 0;border-bottom:1px solid var(--line)}
+  .hero h1{margin:0 0 6px;font-size:28px}
+  .hero p{margin:0 0 18px;color:var(--muted)}
+  .q{padding:20px 22px;border-top:1px solid var(--line)}
+  .q h3{margin:0 0 12px;font-size:18px}
+  .opts{display:grid;grid-template-columns:1fr;gap:10px}
+  .opt{position:relative}
+  input[type="radio"]{position:absolute;inset:0;opacity:0}
+  .tile{display:flex;gap:10px;align-items:flex-start;border:1px solid #202b44;background:#0f1627;border-radius:14px;padding:12px 14px;cursor:pointer;transition:transform .08s ease, border-color .2s, box-shadow .2s}
+  .tile .tag{min-width:2ch;opacity:.9;color:#9ac5ff}
+  .tile:hover{transform:translateY(-1px)}
+  input[type="radio"]:focus + .tile{outline:2px solid #2aa5ff44;outline-offset:2px}
+  input[type="radio"]:checked + .tile{border-color:var(--accent);box-shadow:0 0 0 3px #3ee68233}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;padding:20px 22px}
+  button{appearance:none;border:0;border-radius:14px;padding:12px 16px;font-weight:700;cursor:pointer}
+  .btn-primary{background:linear-gradient(180deg,#42f18d,#2ad673);color:#03140a}
+  .btn-reset{background:#1a243b;color:#b8c7e3;border:1px solid #233155}
+  .result{display:none;padding:22px}
+  .result h2{margin:0 0 6px}
+  .result p{margin:6px 0 14px;color:var(--muted)}
+  .pill{display:inline-flex;gap:10px;align-items:center;background:#0c1426;padding:10px 12px;border:1px solid #1f2b49;border-radius:999px}
+  .bars{display:grid;gap:10px;margin:16px 0}
+  .bar{background:#0d1527;border:1px solid #1f2b49;border-radius:12px;overflow:hidden}
+  .bar > span{display:block;height:16px;background:linear-gradient(90deg,var(--accent-2),#7ee5ff);width:0%}
+  .grid{display:grid;grid-template-columns:1fr;gap:22px;align-items:start}
+  .footer{color:#7f8fb0;font-size:12px;text-align:center;margin:24px 0}
+  .link-btn{display:inline-flex;align-items:center;gap:8px;background:#111a2d;border:1px solid #223055;color:#cfe7ff;text-decoration:none;padding:12px 14px;border-radius:14px;font-weight:700}
+  .link-btn:hover{border-color:#3a69ff}
+
+  @media (min-width:860px){
+    .grid{grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
+    .hero h1{font-size:32px}
+    .result{position:sticky; top:12px; align-self:start}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">My Toilet Quiz</div>
+    </header>
+
+    <section class="card hero">
+      <h1>Find the Toilet That Suits You Best</h1>
+      <p>Answer three delightfully absurd questions and discover your perfect toilet.</p>
+    </section>
+
+    <section class="card grid" id="quiz">
+      <div>
+        <div class="q" data-q="q1">
+          <h3>Q1: You wake up trapped in a room where the water keeps flushing forever. What do you do first?</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q1" value="A" required><span class="tile"><span class="tag">A.</span><span>Dance to the rhythm of the water.</span></span></label>
+            <label class="opt"><input type="radio" name="q1" value="B"><span class="tile"><span class="tag">B.</span><span>Deliver a rescue speech to the mirror.</span></span></label>
+            <label class="opt"><input type="radio" name="q1" value="C"><span class="tile"><span class="tag">C.</span><span>Take apart the tiles to see where it comes from.</span></span></label>
+            <label class="opt"><input type="radio" name="q1" value="D"><span class="tile"><span class="tag">D.</span><span>Treat the sound as a lullaby and go back to sleep.</span></span></label>
+          </div>
+        </div>
+
+        <div class="q" data-q="q2">
+          <h3>Q2: Your soul gets uploaded into a vending machine. What comes out?</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q2" value="A" required><span class="tile"><span class="tag">A.</span><span>A White-noise CD</span></span></label>
+            <label class="opt"><input type="radio" name="q2" value="B"><span class="tile"><span class="tag">B.</span><span>A bottle of air that tastes slightly salty</span></span></label>
+            <label class="opt"><input type="radio" name="q2" value="C"><span class="tile"><span class="tag">C.</span><span>A book titled <em>The Urge to Exist</em></span></span></label>
+            <label class="opt"><input type="radio" name="q2" value="D"><span class="tile"><span class="tag">D.</span><span>Nothing</span></span></label>
+          </div>
+        </div>
+
+        <div class="q" data-q="q3">
+          <h3>Q3: If you had a pair of magical underwear, you would...</h3>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q3" value="A" required><span class="tile"><span class="tag">A.</span><span>Show it off to everyone</span></span></label>
+            <label class="opt"><input type="radio" name="q3" value="B"><span class="tile"><span class="tag">B.</span><span>Hide it secretly so no one steals it</span></span></label>
+            <label class="opt"><input type="radio" name="q3" value="C"><span class="tile"><span class="tag">C.</span><span>Auction it off dramatically</span></span></label>
+            <label class="opt"><input type="radio" name="q3" value="D"><span class="tile"><span class="tag">D.</span><span>Hide it inside a birthday cake and eat it</span></span></label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" id="submitBtn">Reveal My Toilet</button>
+          <button class="btn-reset" id="resetBtn" type="button">Reset</button>
+        </div>
+      </div>
+
+      <div class="result" id="result">
+        <h2 id="resultTitle">Your Toilet Totem:</h2>
+        <p id="resultDesc">—</p>
+        <div class="pill"><strong id="winnerName">—</strong><span id="winnerPct"></span></div>
+        <div class="bars" id="bars"></div>
+        <p>
+          <a id="goLink" class="link-btn" href="#" target="_blank" rel="noopener">Enter Your Exclusive Toilet →</a>
+        </p>
+      </div>
+    </section>
+
+    <p class="footer">No tracking • No login • 100% Silly Science</p>
+  </div>
+
+<script>
+  const RESULT_LINKS = {
+    snow:  'https://weifanjiang233.github.io/CliffToilet/',
+    street:'https://weifanjiang233.github.io/ToiletPublic/',
+    gold:  'https://weifanjiang233.github.io/GoldenToilet/',
+    art:   'https://weifanjiang233.github.io/SkylineToilet/'
+  };
+
+  const RESULT_TEXT = {
+    snow:  {title:'Snow-Mountain Toilet', desc:'Wind, cliff, and a heroic flush echoing across white silence.'},
+    street:{title:'Street Toilet',        desc:'Civic chaos, neon puddles, and alleyway poetry of survival.'},
+    gold:  {title:'Golden Toilet',        desc:'Shiny hubris. Opulent acoustics. A throne that knows.'},
+    art:   {title:'Art Toilet',           desc:'Conceptual plumbing. You are both the exhibit and the exit.'}
+  };
+
+  const MAP_Q1 = { A:'snow', B:'street', C:'gold', D:'art' };
+  const MAP_Q2 = { A:'art',  B:'snow',  C:'street', D:'gold' };
+  const MAP_Q3 = { A:'street', B:'snow', C:'gold', D:'art' };
+
+  const buckets = ['snow','street','gold','art'];
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  function getChoice(name){
+    const el = $(`input[name=\"${name}\"]:checked`);
+    return el ? el.value : null;
+  }
+
+  function tally(){
+    const scores = {snow:0, street:0, gold:0, art:0};
+    const q1 = getChoice('q1');
+    const q2 = getChoice('q2');
+    const q3 = getChoice('q3');
+    if(!q1 || !q2 || !q3){
+      alert('Please complete all questions!');
+      return null;
+    }
+    scores[MAP_Q1[q1]]++;
+    scores[MAP_Q2[q2]]++;
+    scores[MAP_Q3[q3]]++;
+    return scores;
+  }
+
+  function pickWinner(scores){
+    const entries = Object.entries(scores);
+    const max = Math.max(...entries.map(([k,v]) => v));
+    const tied = entries.filter(([k,v]) => v === max).map(([k]) => k);
+    const winner = tied[Math.floor(Math.random()*tied.length)];
+    return {winner, max};
+  }
+
+  function pct(n, total){ return total ? Math.round((n/total)*100) : 0; }
+
+  function renderBars(scores){
+    const total = Object.values(scores).reduce((a,b)=>a+b,0);
+    const bars = $('#bars');
+    bars.innerHTML = '';
+    const labels = {snow:'Snow', street:'Street', gold:'Gold', art:'Art'};
+    buckets.forEach(key =>{
+      const container = document.createElement('div');
+      container.className = 'bar';
+      const inner = document.createElement('span');
+      inner.style.width = pct(scores[key], total) + '%';
+      container.appendChild(inner);
+      const caption = document.createElement('div');
+      caption.style.display='flex';
+      caption.style.justifyContent='space-between';
+      caption.style.marginTop='6px';
+      caption.style.fontSize='12px';
+      caption.style.color='var(--muted)';
+      caption.innerHTML = `<span>${labels[key]}</span><span>${scores[key]} / ${total}  (${pct(scores[key], total)}%)</span>`;
+      bars.appendChild(container);
+      bars.appendChild(caption);
+    });
+  }
+
+  function showResult(scores){
+    const {winner} = pickWinner(scores);
+    const total = Object.values(scores).reduce((a,b)=>a+b,0);
+    const meta = RESULT_TEXT[winner];
+    $('#resultTitle').textContent = 'Your Toilet Totem:';
+    $('#resultDesc').textContent = meta.desc;
+    $('#winnerName').textContent = meta.title;
+    $('#winnerPct').textContent = ` · ${pct(scores[winner], total)}% match`;
+    renderBars(scores);
+    $('#goLink').href = RESULT_LINKS[winner] || '#';
+    $('#result').style.display = 'block';
+    $('#result').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  $('#submitBtn').addEventListener('click', () => {
+    const scores = tally();
+    if(scores) showResult(scores);
+  });
+
+  $('#resetBtn').addEventListener('click', () => {
+    $$('input[type=radio]').forEach(el => el.checked = false);
+    $('#result').style.display = 'none';
+    $('#bars').innerHTML = '';
+  });
+</script>
+</body>
+</html>
